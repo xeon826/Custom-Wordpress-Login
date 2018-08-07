@@ -11,13 +11,20 @@
  * @since DELT 1.0
  */
 
-get_header('login'); 
-?>
+get_header('login');
 
-	<div id="primary" class="content-area login">
+		$related = get_posts( array( 'category__not_in' => array(316, 314), 'posts_per_page' => 1, 'post__not_in' => $do_not_duplicate  ) );
+		if( $related ) foreach( $related as $post ) {
+			setup_postdata($post);
+			$do_not_duplicate[] = $post->ID;
+?>
+	<div class="background-image" style='background-image: url("<?php the_post_thumbnail_url();?>")'>
+	</div>
+	<div id="primary" class="content-area login" >
 		<main id="main" class="site-main" role="main">
 
 		<?php
+	}
 		// Start the loop.
 		while ( have_posts() ) : the_post();
 
@@ -36,4 +43,6 @@ get_header('login');
 		</main><!-- .site-main -->
 	</div><!-- .content-area -->
 
-<?php get_footer(); ?>
+<?php
+// get_footer(); 
+?>
